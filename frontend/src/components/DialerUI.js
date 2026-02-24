@@ -4,6 +4,7 @@ import './DialerUI.css';
 import LeadCard from './LeadCard';
 import LeadDetails from './LeadDetails';
 
+// Dialer UI component - Main interface for lead management
 function DialerUI({ user, accessToken, onLogout }) {
   const [leads, setLeads] = useState([]);
   const [selectedLead, setSelectedLead] = useState(null);
