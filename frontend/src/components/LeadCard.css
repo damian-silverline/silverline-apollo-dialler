@@ -1,0 +1,70 @@
+.lead-card {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.lead-card:hover {
+  background-color: #f9f9f9;
+}
+
+.lead-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.lead-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+
+.disposition-badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.disposition-badge.not-answered {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.disposition-badge.not-interested {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.disposition-badge.more-info {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.disposition-badge.meeting-booked {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.lead-card-body {
+  margin-top: 8px;
+}
+
+.lead-card-body p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.company {
+  font-weight: 500;
+  color: #667eea;
+}
+
+.phone {
+  color: #888;
+}

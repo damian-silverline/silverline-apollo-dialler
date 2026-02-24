@@ -1,0 +1,19 @@
+{
+  "name": "Silverline Apollo Dialer",
+  "version": "1.0.0",
+  "description": "Professional custom dialer UI with Google Sheets integration",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm install && npm run build"
+  }
+}
