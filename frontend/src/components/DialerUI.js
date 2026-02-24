@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './DialerUI.css';
 import LeadCard from './LeadCard';
@@ -7,31 +7,12 @@ import LeadDetails from './LeadDetails';
 function DialerUI({ user, accessToken, onLogout }) {
   const [leads, setLeads] = useState([]);
   const [selectedLead, setSelectedLead] = useState(null);
-
-  // Helper to get index of selected lead in filtered list
-  const getSelectedLeadIndex = () => {
-    if (!selectedLead) return -1;
-    return filteredLeads.findIndex(l => l.id === selectedLead.id);
-  };
-
-  // Handler for Next Lead button
-  const handleNextLead = () => {
-    const idx = getSelectedLeadIndex();
-    if (idx !== -1 && idx < filteredLeads.length - 1) {
-      handleSelectLead(filteredLeads[idx + 1]);
-    }
-  };
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterDisposition, setFilterDisposition] = useState('all');
-  const [locking, setLocking] = useState(false);
 
-  useEffect(() => {
-    fetchLeads();
-  }, [accessToken]);
-
-  const fetchLeads = async () => {
+  const fetchLeads = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -46,6 +27,24 @@ function DialerUI({ user, accessToken, onLogout }) {
       console.error('Error fetching leads:', err);
     } finally {
       setLoading(false);
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
+
+  // Helper to get index of selected lead in filtered list
+  const getSelectedLeadIndex = () => {
+    if (!selectedLead) return -1;
+    return filteredLeads.findIndex(l => l.id === selectedLead.id);
+  };
+
+  // Handler for Next Lead button
+  const handleNextLead = () => {
+    const idx = getSelectedLeadIndex();
+    if (idx !== -1 && idx < filteredLeads.length - 1) {
+      handleSelectLead(filteredLeads[idx + 1]);
     }
   };
 
@@ -71,7 +70,6 @@ function DialerUI({ user, accessToken, onLogout }) {
   const handleSelectLead = async (lead) => {
     setSelectedLead(lead);
     if (!lead['Locked By'] || lead['Locked By'] !== user.email) {
-      setLocking(true);
       try {
         await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/api/leads/${lead.id}/lock`,
@@ -84,8 +82,6 @@ function DialerUI({ user, accessToken, onLogout }) {
         fetchLeads();
       } catch (err) {
         console.error('Failed to lock lead:', err);
-      } finally {
-        setLocking(false);
       }
     }
   };
